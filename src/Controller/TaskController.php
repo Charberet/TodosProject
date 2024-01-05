@@ -4,6 +4,7 @@ namespace App\Controller;
 
 
 use App\Entity\Tasks;
+use App\Entity\User;
 use App\Form\TasksType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,7 @@ class TaskController extends AbstractController
     {
 
         $task = new Tasks();
-        $task = $entity->getRepository(Tasks::class)->findAll();
+        $task = $entity->getRepository(Tasks::class)->findBy(['id_user'=>$this->getUser()]);
 
 
 
@@ -99,7 +100,7 @@ class TaskController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'notice',
+                'success',
                 'La tâche a été modifiée !'
             );
 

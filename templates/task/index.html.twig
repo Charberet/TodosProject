@@ -3,6 +3,16 @@
 {% block title %}Liste des tâches!
 {% endblock %}
 
+{% block bienvenue %}
+	{% if app.user %}
+					<div class="d-flex justify-content-center m-5">
+						<h2>
+							Bienvenue {{app.user.Name}} {{app.user.FirstName}} !
+						</h2>
+					</div>
+				{% endif %}
+{% endblock %}
+
 {% block body %}
 	
 

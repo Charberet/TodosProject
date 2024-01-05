@@ -35,6 +35,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Tasks::class, orphanRemoval: true)]
     private Collection $tasks;
 
+    #[ORM\Column(length: 150)]
+    private ?string $Name = null;
+
+    #[ORM\Column(length: 150)]
+    private ?string $FirstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $ProfilPicture = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -136,6 +145,42 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $task->setIdUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->Name;
+    }
+
+    public function setName(string $Name): static
+    {
+        $this->Name = $Name;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->FirstName;
+    }
+
+    public function setFirstName(string $FirstName): static
+    {
+        $this->FirstName = $FirstName;
+
+        return $this;
+    }
+
+    public function getProfilPicture(): ?string
+    {
+        return $this->ProfilPicture;
+    }
+
+    public function setProfilPicture(?string $ProfilPicture): static
+    {
+        $this->ProfilPicture = $ProfilPicture;
 
         return $this;
     }

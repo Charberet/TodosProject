@@ -2,3 +2,9 @@ body{
 
     background-color: rgba(185, 1, 1, 0.692) !important;
 }
+
+#logout-btn{
+
+    color:rgba(185, 1, 1, 0.692) !important;
+
+}

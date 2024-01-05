@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des tâches!
+{% endblock %}
+
+{% block body %}
+	
+
+	<section>
+		<h1 class="d-flex justify-content-center mt-5 mb-5">Liste des tâches à faire ✅</h1>
+
+		<table class="table table-dark table-hover">
+			<thead>
+				<th>Nom</th>
+                <th>Catégories</th>
+                <th>Date</th>
+				<th>Priorité</th>
+				<th colspan="2" ></th>
+				
+			</thead>
+			<tbody>
+				{% for task in tasks %}
+					<tr>
+						<th>
+							{{task.name}}
+						</th>
+                        <td>
+							{{task.date|date('d/m/Y')}}
+						</td>
+						<td>
+                        {{task.TypeCategory.Name}}
+						</td>
+						<td>
+                        {{task.Priority}}
+						</td>
+						<td>
+                        <a href={{ path('edittask', {id: task.id}) }} ><button class="btn btn-warning" type="submit" value={{task.id}}>Modifier</button> </a>
+						</td>
+						<td>
+                        <a href={{ path('deletetask', {id: task.id}) }} ><button class="btn btn-danger" type="submit" value={{task.id}}>Supprimer</button> </a>
+						</td>
+					</tr>
+					
+				{% endfor %}
+			</tbody>
+		</table>
+
+	</section>
+
+
+{% endblock %}

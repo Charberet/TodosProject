@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-
 use App\Entity\Tasks;
 use App\Form\TasksType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,13 +11,12 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 
-
 class TaskController extends AbstractController
 {
     #[Route('/{_locale}/task', name: 'task')]
-    public function task(EntityManagerInterface $entity): Response
+    public function task(EntityManagerInterface $entity, Request $request): Response
     {
-
+        $locale = $request->getLocale();
         $task = new Tasks();
         $task = $entity->getRepository(Tasks::class)->findBy(['id_user'=>$this->getUser()]);
 
@@ -26,7 +24,8 @@ class TaskController extends AbstractController
 
         return $this->render('task/index.html.twig', [
             'controller_name' => 'TaskController',
-            'tasks' => $task
+            'tasks' => $task,
+            'locale'=>$locale
         ]);
     }
 
@@ -87,6 +86,7 @@ class TaskController extends AbstractController
     #[Route('/{_locale}/edittask/{id}', name: 'edittask')]
     public function editTask(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
+        $locale = $request->getLocale();
         $task = $entityManager->getRepository(Tasks::class)->find($id);
 
         $form = $this->createForm(TasksType::class, $task);
@@ -108,6 +108,7 @@ class TaskController extends AbstractController
 
         return $this->render('task/addtask.html.twig', [
             'form' => $form,
+            'locale'=>$locale
         ]);
-    }
+    }  
 }

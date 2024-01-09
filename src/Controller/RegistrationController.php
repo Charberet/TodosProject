@@ -35,6 +35,7 @@ class RegistrationController extends AbstractController
     #[Route('/{_locale}/register', name: 'register')]
     public function register(Request $request, MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface  $slugger, TranslatorInterface $translator): Response
     {
+        $locale = $request->getLocale();
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -109,6 +110,7 @@ class RegistrationController extends AbstractController
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            'locale'=>$locale,
         ]);
     }
 

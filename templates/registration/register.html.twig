@@ -5,7 +5,7 @@
 
 {% block body %}
 	
-<h1>Inscription</h1>
+<h1>{{"Register"|trans}}</h1>
 
 	{{ form_errors(registrationForm) }}
 	{{ form_start(registrationForm) }}
@@ -17,7 +17,7 @@
     {{ form_row(registrationForm.ProfilPicture) }}
 	{{ form_row(registrationForm.agreeTerms) }}
 
-	<button type="submit" class="btn btn-success">Register</button>
+	<button type="submit" class="btn btn-success">{{"Register"|trans}}</button>
 
 	{{ form_end(registrationForm) }}
 {% endblock %}

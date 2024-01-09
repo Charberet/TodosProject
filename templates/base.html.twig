@@ -21,58 +21,74 @@
 	<body>
 		{% block header %}
 
-			<nav class="navbar navbar-dark bg-dark">
+			<nav class="navbar navbar-dark bg-dark ">
 
-				<form class="container-fluid justify-content-start">
+				<form class="container-fluid justify-content-between">
 					{% if app.user %}
 						<div class="d-flex justify-content-center">
-							<div><img src="{{ asset('media/ProfilPicture/' ~ app.user.ProfilPicture)}}" style="width: 120px;"></div>
-							<div class="col"> <p class="text-white">
-								{{app.user.Name}}
-								{{app.user.FirstName}}
-							</p>
+							<div class="me-3"><img src="{{ asset('media/ProfilPicture/' ~ app.user.ProfilPicture)}}" style="width: 120px; height: 80px;"></div>
+							<div class="col">
+								<p class="text-white">
+									{{app.user.Name}}
+									{{app.user.FirstName}}
+								</p>
 
-							<li class="nav-item dropdown ">
-								<a class="nav-link dropdown-toggle btn btn-primary text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-									Mon compte
-								</a>
-								<ul class="dropdown-menu">
-									<li>
-										<a class="dropdown-item" href={{path ('addtask')}}>Add task</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href={{path ('task')}}>Task list</a>
-									</li>
-									<li><hr class="dropdown-divider"></li>
-									<li>
-										<a id="logout-btn" class="dropdown-item " href={{path ('logout')}}>Logout</a>
-									</li>
-								</ul>
-							</li>
-						</div>
+								<li class="nav-item dropdown ">
+									<a class="nav-link dropdown-toggle btn btn-primary text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+										{{"Account"|trans}}
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a class="dropdown-item" href={{path ('addtask')}}>{{"Add task"|trans}}</a>
+										</li>
+										<li>
+											<a class="dropdown-item" href={{path ('task')}}>{{"Task list"|trans}}</a>
+										</li>
+										<li><hr class="dropdown-divider"></li>
+										<li>
+											<a id="logout-btn" class="dropdown-item " href={{path ('logout')}}>{{"Logout"|trans}}</a>
+										</li>
+									</ul>
+								</li>
+							</div>
 						</div>
 					{% else %}
 
 						<a href={{path ('register')}}>
-							<button class="btn btn-success me-2" type="button">Register</button>
+							<button class="btn btn-success me-2" type="button">{{"Register"|trans}}</button>
 						</a>
 						<a href={{path ('app_login')}}>
-							<button class="btn btn-warning me-2" type="button">Sign in</button>
+							<button class="btn btn-warning me-2" type="button">{{"Sign in"|trans}}</button>
 						</a>
 
 					{% endif %}
+					<div class="row align-items-end">
 
-					<a href="{{path (app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'}))}}">
-							<button class="btn btn-warning me-2" type="button">en</button>
-						</a>
-						<a href="{{path (app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'fr'}))}}">
-							<button class="btn btn-warning me-2" type="button">fr</button>
-						</a>
-					
-
+						<li class="nav-item dropdown">
+							{% if locale == 'fr' %}
+								<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<img src="{{ asset('media/flag/fr.png')}}" style="height: 50px; width: 60px">
+								</a>
+							{% else %}
+								<a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<img src="{{ asset('media/flag/en.png')}}" style="height: 50px; width: 60px">
+								</a>
+							{% endif %}
+							<ul class="dropdown-menu">
+								<li>
+									<a class="dropdown-item" href="{{path (app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'fr'}))}}">
+										<img src="{{ asset('media/flag/fr.png')}}" style="height: 50px; width: 60px">
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{path (app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'}))}}">
+										<img src="{{ asset('media/flag/en.png')}}" style="height: 50px; width: 60px">
+									</a>
+								</li>
+							</ul>
+						</li>
+					</div>
 				</form>
-			
-
 			</nav>
 
 			{% for message in app.flashes('success') %}

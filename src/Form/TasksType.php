@@ -19,12 +19,12 @@ class TasksType extends AbstractType
     {
         $builder
             ->add('Name', TextType::class,[
-                'label'=>'Nom de la tâche',
+                'label'=>'Name',
 
             ])
             ->add('Date', DateType::class)
             ->add('Priority', ChoiceType::class, [
-                'label'=>'Priorité',
+                'label'=>'Priority',
                 'choices' => [
                     'Choisir...' => '',
                     'Bas' => 'Bas',
@@ -36,12 +36,12 @@ class TasksType extends AbstractType
             ->add('TypeCategory', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'Name',
-                'label' => 'Catégorie'
+                'label' => 'Categorie'
                 
             ])
 
             ->add('save', SubmitType::class, [
-                'label' => 'Valider',
+                'label' => 'Add',
                 'attr'   =>  array(
                     'class'   => 'btn btn-success')
             ] );

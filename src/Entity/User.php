@@ -44,6 +44,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $ProfilPicture = null;
 
+    #[ORM\Column]
+    private ?bool $IsVerified = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -181,6 +184,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setProfilPicture(?string $ProfilPicture): static
     {
         $this->ProfilPicture = $ProfilPicture;
+
+        return $this;
+    }
+
+    public function isIsVerified(): ?bool
+    {
+        return $this->IsVerified;
+    }
+
+    public function setIsVerified(bool $IsVerified): static
+    {
+        $this->IsVerified = $IsVerified;
 
         return $this;
     }

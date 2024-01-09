@@ -4,7 +4,6 @@ namespace App\Controller;
 
 
 use App\Entity\Tasks;
-use App\Entity\User;
 use App\Form\TasksType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

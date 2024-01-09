@@ -20,6 +20,7 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->setMethod('POST')
             ->add('email')
             ->add('Name')
             ->add('FirstName')
@@ -51,7 +52,7 @@ class RegistrationFormType extends AbstractType
                 
             ])
             ->add('ProfilPicture', FileType::class, [
-                'label' => 'Photo de profil ',
+                'label' => 'upload profil picture ',
 
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -76,6 +77,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            
         ]);
     }
 }

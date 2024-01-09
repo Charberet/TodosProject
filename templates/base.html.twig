@@ -25,36 +25,45 @@
 
 				<form class="container-fluid justify-content-start">
 					{% if app.user %}
-					<div> <img src= {{ asset (app.user.ProfilPicture)}}></div>
-						<li class="nav-item dropdown">
-							<a class="nav-link dropdown-toggle btn btn-primary text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-								Mon compte
-							</a>
-							<ul class="dropdown-menu">
-								<li>
-									<a class="dropdown-item" href={{path ('addtask')}}>Ajouter une tâche</a>
-								</li>
-								<li>
-									<a class="dropdown-item" href={{path ('task')}}>Liste des tâches</a>
-								</li>
-								<li><hr class="dropdown-divider"></li>
-								<li>
-									<a id="logout-btn" class="dropdown-item " href={{path ('logout')}}>Déconnexion</a>
-								</li>
-							</ul>
-						</li>
+						<div class="d-flex justify-content-center">
+							<div><img src="{{ asset('media/ProfilPicture/' ~ app.user.ProfilPicture)}}" style="width: 120px;"></div>
+							<div class="col"> <p class="text-white">
+								{{app.user.Name}}
+								{{app.user.FirstName}}
+							</p>
 
+							<li class="nav-item dropdown ">
+								<a class="nav-link dropdown-toggle btn btn-primary text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									Mon compte
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a class="dropdown-item" href={{path ('addtask')}}>Add task</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href={{path ('task')}}>Task list</a>
+									</li>
+									<li><hr class="dropdown-divider"></li>
+									<li>
+										<a id="logout-btn" class="dropdown-item " href={{path ('logout')}}>Logout</a>
+									</li>
+								</ul>
+							</li>
+						</div>
+						</div>
 					{% else %}
 
 						<a href={{path ('register')}}>
-							<button class="btn btn-success me-2" type="button">Inscription</button>
+							<button class="btn btn-success me-2" type="button">Register</button>
 						</a>
 						<a href={{path ('app_login')}}>
-							<button class="btn btn-warning me-2" type="button">Connexion</button>
+							<button class="btn btn-warning me-2" type="button">Sign in</button>
 						</a>
 
 					{% endif %}
 				</form>
+			
+
 			</nav>
 
 			{% for message in app.flashes('success') %}
@@ -65,9 +74,7 @@
 			<div class="container">
 			{% endblock %}
 
-			{% block bienvenue %}
-			
-			{% endblock %}
+			{% block bienvenue %}{% endblock %}
 
 			{% block body %}{% endblock %}
 		</div>

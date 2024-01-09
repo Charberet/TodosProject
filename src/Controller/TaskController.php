@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class TaskController extends AbstractController
 {
-    #[Route('/task', name: 'task')]
+    #[Route('/{_locale}/task', name: 'task')]
     public function task(EntityManagerInterface $entity): Response
     {
 
@@ -31,7 +31,7 @@ class TaskController extends AbstractController
     }
 
 
-    #[Route('/addtask', name: 'addtask')]
+    #[Route('/{_locale}/addtask', name: 'addtask')]
     public function new(Request $request, EntityManagerInterface $entity): Response
     {
         $task = new Tasks();
@@ -67,7 +67,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/deletetask/{id}', name: 'deletetask')]
+    #[Route('/{_locale}/deletetask/{id}', name: 'deletetask')]
     public function deleteTask(EntityManagerInterface $entityManager, int $id): Response
     {
         $task = $entityManager->getRepository(Tasks::class)->find($id);
@@ -84,7 +84,7 @@ class TaskController extends AbstractController
 
 
 
-    #[Route('/edittask/{id}', name: 'edittask')]
+    #[Route('/{_locale}/edittask/{id}', name: 'edittask')]
     public function editTask(Request $request, EntityManagerInterface $entityManager, int $id): Response
     {
         $task = $entityManager->getRepository(Tasks::class)->find($id);

@@ -61,6 +61,15 @@
 						</a>
 
 					{% endif %}
+
+					<a href="{{path (app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'en'}))}}">
+							<button class="btn btn-warning me-2" type="button">en</button>
+						</a>
+						<a href="{{path (app.request.attributes.get('_route'), app.request.attributes.get('_route_params')|merge({'_locale': 'fr'}))}}">
+							<button class="btn btn-warning me-2" type="button">fr</button>
+						</a>
+					
+
 				</form>
 			
 

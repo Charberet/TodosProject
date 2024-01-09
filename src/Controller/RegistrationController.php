@@ -21,6 +21,7 @@ use Symfony\Component\Mailer\Mailer;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use App\Repository\UserRepository;
 
 
 
@@ -31,33 +32,33 @@ class RegistrationController extends AbstractController
     {
         $this->emailVerifier = $emailVerifier;
     }
-    #[Route('/register', name: 'register')]
-    public function register(Request $request,MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager,SluggerInterface  $slugger, TranslatorInterface $translator): Response
+    #[Route('/{_locale}/register', name: 'register')]
+    public function register(Request $request, MailerInterface $mailer, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, SluggerInterface  $slugger, TranslatorInterface $translator): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-       
+
         if ($form->isSubmitted() && $form->isValid()) {
-            
+
             // encode the plain password
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
-                   
+
                 )
             );
             $picture = $form->get('ProfilPicture')->getData();
 
-          
+
             if ($picture) {
-                
+
                 $originalFilename = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeFilename = $slugger->slug($originalFilename);
-                $NewProfilPicture = $safeFilename.'-'.uniqid().'.'.$picture->guessExtension();
-                
+                $NewProfilPicture = $safeFilename . '-' . uniqid() . '.' . $picture->guessExtension();
+
                 // Move the file to the directory where brochures are stored
                 try {
                     $picture->move(
@@ -72,11 +73,11 @@ class RegistrationController extends AbstractController
                 // instead of its contents
                 $user->setProfilPicture($NewProfilPicture);
             }
-            
+
             $entityManager->persist($user);
             $entityManager->flush();
 
-         
+
             // $transport = new EsmtpTransport('smtp.gmail.com');
             // $transport->setUsername('charberet.clement@gmail.com');
             // $transport->setPassword('brehqzlbhubhjlyt');
@@ -84,40 +85,35 @@ class RegistrationController extends AbstractController
             // $email = (new Email())
             // ->from('charberet.clement@gmail.com')
             // ->to($user->getEmail())
-        
+
             // ->subject('Time for Symfony Mailer!')
             // ->text('Sending emails is fun again!')
             // ->html('<p>See Twig integration for better HTML integration!</p>');
+            //$mailer->send($email);
+
+            $this->emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
+                $email = (new TemplatedEmail())
+                    ->from(new Address('charberet.clement@gmail.com', 'TodosProject Check mail'))
+                    ->to($user->getEmail())
+                    ->subject('Please Confirm your Email')
+                    ->htmlTemplate('registration/confirmation_email.html.twig')
+            );
 
 
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-            $email=(new TemplatedEmail())
-                ->from(new Address('mailer@example.com', 'AcmeMailBot'))
-                ->to($user->getEmail())
-                ->subject('Please Confirm your Email')
-                ->htmlTemplate('registration/confirmation_email.html.twig')
-        );
 
-        $mailer->send($email);
-           
-        
+
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
-
-
-        
     }
 
 
-    
-
-
-
-    #[Route('/verify/email', name: 'app_verify_email')]
+    #[Route('/{_locale}/verify/email', name: 'app_verify_email')]
     public function verifyUserEmail(Request $request): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
@@ -128,12 +124,12 @@ class RegistrationController extends AbstractController
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $exception->getReason());
 
-            return $this->redirectToRoute('app_register');
+            return $this->redirectToRoute('app_login');
         }
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
 
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 }

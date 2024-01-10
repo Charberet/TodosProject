@@ -93,7 +93,7 @@
 
 			{% for message in app.flashes('success') %}
 				<div class="flash-notice alert alert-primary d-flex justify-content-center">
-					{{ message }}
+					{{ message|trans }}
 				</div>
 			{% endfor %}
 			<div class="container">

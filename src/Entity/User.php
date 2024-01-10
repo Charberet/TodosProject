@@ -47,6 +47,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $IsVerified = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $google_id = null;
+
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
@@ -196,6 +199,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $IsVerified): static
     {
         $this->IsVerified = $IsVerified;
+
+        return $this;
+    }
+
+    public function getGoogleId(): ?string
+    {
+        return $this->google_id;
+    }
+
+    public function setGoogleId(?string $google_id): static
+    {
+        $this->google_id = $google_id;
 
         return $this;
     }

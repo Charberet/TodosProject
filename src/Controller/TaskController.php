@@ -34,7 +34,7 @@ class TaskController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entity): Response
     {
         $task = new Tasks();
-
+        $locale = $request->getLocale();
         $form = $this->createForm(TasksType::class, $task);
         $form->handleRequest($request);
 
@@ -53,7 +53,7 @@ class TaskController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'La tâche a été ajoutée !'
+                'The task has been added !'
             );
 
             return $this->redirectToRoute('task');
@@ -61,6 +61,7 @@ class TaskController extends AbstractController
 
         return $this->render('task/addtask.html.twig', [
             'form' => $form,
+            'locale'=>$locale
         ]);
     }
 
@@ -75,7 +76,7 @@ class TaskController extends AbstractController
 
         $this->addFlash(
             'success',
-            'La tâche a été supprimée !'
+            'The task has been deleted !'
         );
 
         return $this->redirectToRoute('task');
@@ -100,7 +101,7 @@ class TaskController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'La tâche a été modifiée !'
+                'The task has been edited !'
             );
 
             return $this->redirectToRoute('task');

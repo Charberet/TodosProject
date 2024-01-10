@@ -8,6 +8,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\HttpFoundation\Request;
 
+
+
 class SecurityController extends AbstractController
 {
     #[Route(path: '/{_locale<en|fr>}/login', name: 'app_login')]
@@ -19,7 +21,7 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'locale'=>$locale]);
+        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'locale' => $locale]);
     }
 
     #[Route(path: '/{_locale}/logout', name: 'logout')]

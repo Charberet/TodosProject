@@ -5,9 +5,9 @@ namespace App\Entity;
 use App\Repository\TasksRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-
+use ApiPlatform\Metadata\ApiResource;
 #[ORM\Entity(repositoryClass: TasksRepository::class)]
-
+#[ApiResource]
 class Tasks
 {
     #[ORM\Id]
